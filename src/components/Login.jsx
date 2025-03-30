@@ -8,9 +8,6 @@ import {
   Typography,
   TextField,
   Button,
-  FormControlLabel,
-  Checkbox,
-  Link,
   InputAdornment,
   Alert,
 } from "@mui/material";

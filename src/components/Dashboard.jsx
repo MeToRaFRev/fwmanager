@@ -103,6 +103,18 @@ export default function Dashboard({ user, refresh }) {
                         }}
                     />
                 );
+            case "done":
+                return (
+                    <Chip
+                        label="Done"
+                        variant="outlined"
+                        sx={{
+                            backgroundColor: "#E0F2FE", // bg-blue-50
+                            color: "#1D4ED8",          // text-blue-700
+                            borderColor: "#BFDBFE",     // border-blue-200
+                        }}
+                    />
+                );
             default:
                 return null;
         }
@@ -165,6 +177,18 @@ export default function Dashboard({ user, refresh }) {
                       backgroundColor: "#4b4b4b3a",
                       color: "#979797",
                       borderColor: "#FEE2E2",
+                  };
+        } else if (status === "done") {
+            return active
+                ? {
+                      backgroundColor: "#E0F2FE", // bg-blue-50
+                      color: "#1D4ED8",           // text-blue-700
+                      borderColor: "#BFDBFE",      // border-blue-200
+                  }
+                : {
+                      backgroundColor: "#4b4b4b3a",
+                      color: "#979797",
+                      borderColor: "#BFDBFE",
                   };
         }
     };
@@ -230,6 +254,11 @@ export default function Dashboard({ user, refresh }) {
                             label="Rejected"
                             onClick={() => toggleStatusFilter("rejected")}
                             sx={getFilterChipSx("rejected", statusFilters.includes("rejected"))}
+                        />
+                        <Chip
+                            label="Done"
+                            onClick={() => toggleStatusFilter("done")}
+                            sx={getFilterChipSx("done", statusFilters.includes("done"))}
                         />
                     </Box>
                 </Box>
