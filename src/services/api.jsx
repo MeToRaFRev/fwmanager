@@ -103,6 +103,18 @@ const nslookup = async (domain) => {
   return await response.json();
 };
 
+const installRules = async (requests, token) => {
+  const response = await fetch(`${API_URL}/install`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify(requests),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to install rules");
+  }
+  return await response.json();
+}
+
 const api = {
   login,
   verify,
@@ -112,5 +124,6 @@ const api = {
   updateRequest,
   getAuditLog,
   nslookup,
+  installRules
 }
 export default api

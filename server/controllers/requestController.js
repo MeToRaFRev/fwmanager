@@ -58,6 +58,7 @@ const createRequest = (req, res) => {
     id: uuidv4(),
     ...req.body,
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
     status: "pending",       // Default status is "pending"
     reviewer_notes: "",        // No reviewer notes initially
     createdBy: req.user.username,
@@ -82,6 +83,7 @@ const updateRequest = (req, res) => {
   }
   requests[index].status = status;
   requests[index].reviewer_notes = reviewer_notes || requests[index].reviewer_notes;
+  requests[index].updatedAt = new Date().toISOString();
   writeRequests(requests);
   auditController.logAction(req.user.username, 'updateRequest', id);
   res.json(requests[index]);

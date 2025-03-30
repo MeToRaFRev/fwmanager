@@ -11,14 +11,16 @@ const ldapConfig = {
 
 const login = (req, res) => {
   const { username, password } = req.body;
-  
+
   if (!username || !password) {
     return res.status(400).json({ message: "Username and password are required" });
   }
-  // development only: allow admin:admin for testing
-  if (username === 'admin' && password === 'admin') {
-    const token = jwt.sign({ username: 'admin', role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    return res.json({ token, username: 'admin', role: 'admin' });
+  if (process.env.DEVMODE) {
+    // development only: allow admin:admin for testing
+    if (username === 'admin' && password === 'admin') {
+      const token = jwt.sign({ username: 'admin', role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      return res.json({ token, username: 'admin', role: 'admin' });
+    }
   }
   // Create an LDAP client. In production, adjust tlsOptions accordingly.
   const client = ldap.createClient({
@@ -41,7 +43,7 @@ const login = (req, res) => {
     const searchOptions = {
       scope: 'sub',
       filter: `(sAMAccountName=${username})`,
-      attributes: ['memberOf','displayName'], // Fetch the groups
+      attributes: ['memberOf', 'displayName'], // Fetch the groups
     };
 
     client.search(ldapConfig.baseDN, searchOptions, (err, searchRes) => {
@@ -86,7 +88,7 @@ const login = (req, res) => {
 
         // Sign a JWT token with the username and role
         const token = jwt.sign(
-          { username:`${username} (${displayName})`, role },
+          { username: `${username} (${displayName})`, role },
           process.env.JWT_SECRET,
           { expiresIn: '1h' }
         );

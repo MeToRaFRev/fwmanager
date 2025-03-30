@@ -22,6 +22,7 @@ import {
     IconButton,
 } from "@mui/material";
 import { CheckCircle, XCircle } from "lucide-react";
+import InstallRulesDialog from "./InstallRulesDialog";
 import api from "../services/api";
 
 export default function Dashboard({ user, refresh }) {
@@ -29,6 +30,7 @@ export default function Dashboard({ user, refresh }) {
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [reviewNotes, setReviewNotes] = useState("");
     const [showReviewDialog, setShowReviewDialog] = useState(false);
+    const [installRulesDialogOpen, setInstallRulesDialogOpen] = useState(false);
 
     // States for filtering
     const [searchQuery, setSearchQuery] = useState("");
@@ -44,6 +46,17 @@ export default function Dashboard({ user, refresh }) {
         try {
             const data = await api.getRequests(user.token);
             setRequests(data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+
+    const onInstall = async (selectedRequests) => {
+        try {
+            await api.installRules(selectedRequests, user.token);
+            setInstallRulesDialogOpen(false);
+            loadRequests();
         } catch (err) {
             console.error(err);
         }
@@ -145,51 +158,51 @@ export default function Dashboard({ user, refresh }) {
         if (status === "pending") {
             return active
                 ? {
-                      backgroundColor: "#fceba563", // bg-yellow-50
-                      color: "#B45309",           // text-yellow-700
-                      borderColor: "#FEF3C7",      // border-yellow-200
-                  }
+                    backgroundColor: "#fceba563", // bg-yellow-50
+                    color: "#B45309",           // text-yellow-700
+                    borderColor: "#FEF3C7",      // border-yellow-200
+                }
                 : {
                     backgroundColor: "#4b4b4b3a",
                     color: "#979797",
-                      borderColor: "#FEF3C7",
-                  };
+                    borderColor: "#FEF3C7",
+                };
         } else if (status === "approved") {
             return active
                 ? {
-                      backgroundColor: "#ccfce6cc", // bg-green-50
-                      color: "#047857",           // text-green-700
-                      borderColor: "#BBF7D0",      // border-green-200
-                  }
+                    backgroundColor: "#ccfce6cc", // bg-green-50
+                    color: "#047857",           // text-green-700
+                    borderColor: "#BBF7D0",      // border-green-200
+                }
                 : {
                     backgroundColor: "#4b4b4b3a",
                     color: "#979797",
-                      borderColor: "#BBF7D0",
-                  };
+                    borderColor: "#BBF7D0",
+                };
         } else if (status === "rejected") {
             return active
                 ? {
-                      backgroundColor: "#FEF2F2", // bg-red-50
-                      color: "#B91C1C",           // text-red-700
-                      borderColor: "#FEE2E2",      // border-red-200
-                  }
+                    backgroundColor: "#FEF2F2", // bg-red-50
+                    color: "#B91C1C",           // text-red-700
+                    borderColor: "#FEE2E2",      // border-red-200
+                }
                 : {
-                      backgroundColor: "#4b4b4b3a",
-                      color: "#979797",
-                      borderColor: "#FEE2E2",
-                  };
+                    backgroundColor: "#4b4b4b3a",
+                    color: "#979797",
+                    borderColor: "#FEE2E2",
+                };
         } else if (status === "done") {
             return active
                 ? {
-                      backgroundColor: "#E0F2FE", // bg-blue-50
-                      color: "#1D4ED8",           // text-blue-700
-                      borderColor: "#BFDBFE",      // border-blue-200
-                  }
+                    backgroundColor: "#E0F2FE", // bg-blue-50
+                    color: "#1D4ED8",           // text-blue-700
+                    borderColor: "#BFDBFE",      // border-blue-200
+                }
                 : {
-                      backgroundColor: "#4b4b4b3a",
-                      color: "#979797",
-                      borderColor: "#BFDBFE",
-                  };
+                    backgroundColor: "#4b4b4b3a",
+                    color: "#979797",
+                    borderColor: "#BFDBFE",
+                };
         }
     };
 
@@ -239,27 +252,38 @@ export default function Dashboard({ user, refresh }) {
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                     {/* Toggle chips for status filtering */}
-                    <Box sx={{ display: "flex", gap: 1 }}>
-                        <Chip
-                            label="Pending"
-                            onClick={() => toggleStatusFilter("pending")}
-                            sx={getFilterChipSx("pending", statusFilters.includes("pending"))}
-                        />
-                        <Chip
-                            label="Approved"
-                            onClick={() => toggleStatusFilter("approved")}
-                            sx={getFilterChipSx("approved", statusFilters.includes("approved"))}
-                        />
-                        <Chip
-                            label="Rejected"
-                            onClick={() => toggleStatusFilter("rejected")}
-                            sx={getFilterChipSx("rejected", statusFilters.includes("rejected"))}
-                        />
-                        <Chip
-                            label="Done"
-                            onClick={() => toggleStatusFilter("done")}
-                            sx={getFilterChipSx("done", statusFilters.includes("done"))}
-                        />
+                    <Box sx={{ display: "flex", flexGrow: 1,alignItems: "center" }}>
+                        <Box sx={{ display: "flex", flexGrow: 1, gap: 1 }}>
+                            <Chip
+                                label="Pending"
+                                onClick={() => toggleStatusFilter("pending")}
+                                sx={getFilterChipSx("pending", statusFilters.includes("pending"))}
+                            />
+                            <Chip
+                                label="Approved"
+                                onClick={() => toggleStatusFilter("approved")}
+                                sx={getFilterChipSx("approved", statusFilters.includes("approved"))}
+                            />
+                            <Chip
+                                label="Rejected"
+                                onClick={() => toggleStatusFilter("rejected")}
+                                sx={getFilterChipSx("rejected", statusFilters.includes("rejected"))}
+                            />
+                            <Chip
+                                label="Done"
+                                onClick={() => toggleStatusFilter("done")}
+                                sx={getFilterChipSx("done", statusFilters.includes("done"))}
+                            />
+                        </Box>
+                        <Box>
+                            <Button
+                                variant="contained"
+                                onClick={() => setInstallRulesDialogOpen(true)}
+                                sx={{ backgroundColor: "#1D4ED8", "&:hover": { backgroundColor: "#0431ac" },borderRadius: 5 }}
+                            >
+                                Install Selected Rules
+                            </Button>
+                        </Box>
                     </Box>
                 </Box>
 
@@ -268,25 +292,26 @@ export default function Dashboard({ user, refresh }) {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Updated At</TableCell>
+                                    <TableCell>Created At</TableCell>
                                     <TableCell>Requester</TableCell>
                                     <TableCell>Source IP</TableCell>
                                     <TableCell>Destination IP</TableCell>
                                     <TableCell>Port/Protocol</TableCell>
                                     <TableCell>Status</TableCell>
                                     <TableCell>Action</TableCell>
+                                    <TableCell>Updated At</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {filteredAndSortedRequests.map((request) => (
                                     <TableRow key={request.id}>
                                         <TableCell>
-                                            {formatDateRelative(request.updatedAt || request.createdAt)}
+                                            {formatDateRelative(request.createdAt)}
                                         </TableCell>
                                         <TableCell>
                                             <Box>
                                                 <Typography variant="body1" sx={{ fontWeight: 500 }}>
-                                                    {request.requester_name}
+                                                    {request.createdBy}
                                                 </Typography>
                                                 <Typography variant="body2" color="text.secondary">
                                                     {request.requester_email || ""}
@@ -323,6 +348,9 @@ export default function Dashboard({ user, refresh }) {
                                                     View
                                                 </Button>
                                             )}
+                                        </TableCell>
+                                        <TableCell>
+                                            {formatDateRelative(request.updatedAt || request.createdAt)}
                                         </TableCell>
                                     </TableRow>
                                 ))}
@@ -434,6 +462,13 @@ export default function Dashboard({ user, refresh }) {
                         </DialogActions>
                     )}
                 </Dialog>
+                {/* Install Rules Dialog */}
+                <InstallRulesDialog
+                    open={installRulesDialogOpen}
+                    onClose={() => setInstallRulesDialogOpen(false)}
+                    requests={filteredAndSortedRequests.filter((req) => req.status === "approved")}
+                    onInstall={onInstall}
+                />
             </Container>
         </Box>
     );

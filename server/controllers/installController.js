@@ -1,0 +1,2 @@
+const install = (req, res) => {
+}

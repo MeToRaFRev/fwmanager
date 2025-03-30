@@ -1,70 +1,120 @@
-# Getting Started with Create React App
+# Firewall Manager
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Firewall Manager UI](./assets/firewall-manager-screenshot.png "Firewall Manager UI")
 
-## Available Scripts
+> **Open Source Notice**  
+> This project is open source, but **commercial/business use is not permitted** without prior written agreement from the author.
 
-In the project directory, you can run:
+## Overview
 
-### `npm start`
+Firewall Manager is a web-based tool for managing firewall rule requests. It enables you to:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Create** new firewall rule requests.
+- **Review** and **approve/reject** pending requests.
+- **Install** approved rules directly to your firewall (after proper backend configuration).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The screenshot above shows the intuitive dashboard where administrators can filter and review rule requests.
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features
 
-### `npm run build`
+- **User-friendly Dashboard:**  
+  Easily filter and search requests by status, IP addresses, ports, or requester names.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Role-Based Access:**  
+  Administrators can review, approve/reject, and install rules, while regular users can submit requests.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Customizable Firewall Integration:**  
+  Integrate with your specific firewall by modifying the backend logic in `install.js`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## Important Notes
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **DEVMODE:**  
+   - Developer mode is enabled by default for local development and debugging.
+   - **For production, disable DEVMODE** by setting `DEVMODE=false` via environment variables.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. **Firewall Integration:**  
+   - To connect to your firewall API, configure the backend file **`install.js`** with the appropriate commands and API calls matching your firewall's requirements.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+3. **License & Usage:**  
+   - This project is open source for personal and non-commercial use only.
+   - **Business or commercial use is prohibited** without an explicit agreement with the author.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## Environment Variables
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Create a `.env` file in your backend directory with the following variables:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```ini
+PORT=3001
+JWT_SECRET=your_secret_key
+LDAP_URL=ldap://ldap.example.org
+LDAP_BASE_DN=DC=example,DC=org
+LDAP_DOMAIN_SUFFIX=@example.org
+LDAP_ADMIN_GROUP=GROUPNAMEXAMPLE
+DEVMODE=true
+```
 
-### Code Splitting
+These variables control the server port, JWT token secret, LDAP configuration, and the developer mode status. Remember to disable DEVMODE for production.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Getting Started
 
-### Analyzing the Bundle Size
+    Clone the Repository:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+git clone https://github.com/your-org/firewall-manager.git
+cd firewall-manager
 
-### Making a Progressive Web App
+Install Dependencies:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+# In the frontend directory:
+npm install
 
-### Advanced Configuration
+# In the backend directory:
+npm install
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Configure Environment Variables:
+Create a .env file in your backend directory with the variables listed above.
 
-### Deployment
+Run the Application:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+    # Frontend:
+    npm start
 
-### `npm run build` fails to minify
+    # Backend:
+    npm run dev
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    The application should now be accessible in your browser (e.g., at http://localhost:3000).
+
+Firewall Installation Logic
+
+To integrate with your firewall, open install.js in the backend and update it to match your firewall's API or CLI requirements. Replace any placeholder commands or API calls with the ones that fit your environment. Ensure that any sensitive credentials are securely managed.
+Contributing
+
+Contributions are welcome! To contribute:
+
+    Fork the repository.
+
+    Create a feature branch:
+
+git checkout -b my-new-feature
+
+Commit your changes:
+
+git commit -am 'Add new feature'
+
+Push to the branch:
+
+    git push origin my-new-feature
+
+    Open a Pull Request.
+
+Note: While this project is open source, commercial use is strictly prohibited without a direct agreement with the author.
+Contact
+
+For inquiries, feature requests, or permission for commercial usage, please contact the project owner or open an issue in the repository.
+
+Enjoy using Firewall Manager—and remember to disable DEVMODE in production!
