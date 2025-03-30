@@ -104,14 +104,6 @@ export default function Login({ setUser, setPage }) {
                 mt: 2,
               }}
             >
-              <FormControlLabel control={<Checkbox color="primary" />} label="Remember me" />
-              <Link
-                href="#"
-                underline="hover"
-                sx={{ fontSize: "0.875rem", fontWeight: 500, color: "#2563EB" }}
-              >
-                Forgot your password?
-              </Link>
             </Box>
             <Button type="submit" variant="contained" fullWidth sx={{ mt: 3 }}>
               Sign in

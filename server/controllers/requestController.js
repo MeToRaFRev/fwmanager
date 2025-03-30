@@ -94,8 +94,11 @@ const nsLookup = async (req, res) => {
   }
   try {
     console.log(`Performing nslookup for domain: ${domain}`);
-    const response = await util.promisify(dns.resolve4)(domain);
+    let response = await util.promisify(dns.resolve4)(domain);
     console.log(`nslookup result for ${domain}: ${response}`);
+    if(Array.isArray(response) && response.length > 0){
+      response = response[0];
+    }
     res.json({ ip: response });
   } catch (error) {
     console.error(`Error performing nslookup for ${domain}: ${error.message}`);

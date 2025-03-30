@@ -1,54 +1,41 @@
 [
   {
-    "id": "cec9e677-6a07-453d-b51a-feecd735154c",
-    "source_ip": "192.168.1.1",
-    "destination_ip": "192.168.1.1",
-    "port": "10",
+    "id": "3f8a2ad5-0933-402e-a815-173e9236caf6",
+    "source_ip": "10.110.79.10",
+    "destination_ip": "142.250.75.110",
+    "port": "443",
     "protocol": "TCP",
-    "description": "asdasd",
-    "requester_name": "user",
-    "createdAt": "2025-03-26T13:18:10.670Z",
+    "description": "asasdasda",
+    "requester_name": "levi_avi-ext (Aviel Levi)",
+    "createdAt": "2025-03-27T08:08:41.678Z",
     "status": "approved",
     "reviewer_notes": "",
-    "createdBy": "user"
+    "createdBy": "levi_avi-ext (Aviel Levi)"
   },
   {
-    "id": "77091e5e-7860-4868-a844-bc94bdbaf3e8",
-    "source_ip": "192.168.1.1",
-    "destination_ip": "192.168.1.1",
-    "port": "101",
+    "id": "a0e68d20-1ead-418f-a8e7-3024af85a300",
+    "source_ip": "10.110.79.10",
+    "destination_ip": "142.250.75.110",
+    "port": "4431",
     "protocol": "TCP",
-    "description": "asdasdasda",
-    "requester_name": "user",
-    "createdAt": "2025-03-26T15:50:46.079Z",
-    "status": "pending",
-    "reviewer_notes": "",
-    "createdBy": "user"
-  },
-  {
-    "id": "323897bf-9f11-4cc8-86ad-34f9c4cc5cc7",
-    "source_ip": "192.168.1.1",
-    "destination_ip": "192.168.1.1",
-    "port": "10",
-    "protocol": "UDP",
-    "description": "asdasdasd",
-    "requester_name": "user",
-    "createdAt": "2025-03-26T15:54:36.770Z",
-    "status": "pending",
-    "reviewer_notes": "",
-    "createdBy": "user"
-  },
-  {
-    "id": "bf30a8d7-1753-4a3a-bcea-bb90bacf7185",
-    "source_ip": "192.168.1.1",
-    "destination_ip": "192.168.1.1",
-    "port": "101",
-    "protocol": "ICMP",
     "description": "asdasd",
-    "requester_name": "user",
-    "createdAt": "2025-03-26T15:54:56.888Z",
-    "status": "approved",
+    "requester_name": "levi_avi-ext (Aviel Levi)",
+    "createdAt": "2025-03-27T08:11:37.887Z",
+    "status": "pending",
     "reviewer_notes": "",
-    "createdBy": "user"
+    "createdBy": "levi_avi-ext (Aviel Levi)"
+  },
+  {
+    "id": "cdd22825-543f-4903-ab11-148d852564d9",
+    "source_ip": "10.110.79.10",
+    "destination_ip": "142.250.75.110",
+    "port": "1111",
+    "protocol": "TCP",
+    "description": "asdasdasdasd",
+    "requester_name": "levi_avi-ext (Aviel Levi)",
+    "createdAt": "2025-03-27T18:39:04.741Z",
+    "status": "pending",
+    "reviewer_notes": "",
+    "createdBy": "levi_avi-ext (Aviel Levi)"
   }
 ]

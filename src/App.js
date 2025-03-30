@@ -12,6 +12,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  Chip,
 } from "@mui/material";
 import Dashboard from "./components/Dashboard";
 import Login from "./components/Login";
@@ -59,6 +60,7 @@ export default function App() {
               <Typography variant="h6" sx={{ ml: 2, fontWeight: "bold", color: "#000" }}>
                 Firewall Manager
               </Typography>
+              {user?.username && <Chip label={user?.username} color="primary" sx={{ ml: 2 }} />}
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               {user && (

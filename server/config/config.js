@@ -4,9 +4,8 @@ module.exports = {
     ldap: {
         url: process.env.LDAP_URL,
         baseDN: process.env.LDAP_BASE_DN,
+        domainSuffix: process.env.LDAP_DOMAIN_SUFFIX,
         adminGroup: process.env.LDAP_ADMIN_GROUP,
-        bindDN: process.env.LDAP_BIND_DN,
-        bindCredentials: process.env.LDAP_BIND_CREDENTIALS,
     },
   };
   

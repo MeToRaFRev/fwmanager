@@ -37,7 +37,7 @@ const login = (req, res) => {
     const searchOptions = {
       scope: 'sub',
       filter: `(sAMAccountName=${username})`,
-      attributes: ['memberOf'], // Fetch the groups
+      attributes: ['memberOf','displayName'], // Fetch the groups
     };
 
     client.search(ldapConfig.baseDN, searchOptions, (err, searchRes) => {
@@ -48,14 +48,23 @@ const login = (req, res) => {
       }
 
       let userGroups = [];
+      let displayName = '';
 
       searchRes.on('searchEntry', (entry) => {
-        // The memberOf attribute might be a string or an array.
-        if (entry.object.memberOf) {
-          userGroups = Array.isArray(entry.object.memberOf)
-            ? entry.object.memberOf
-            : [entry.object.memberOf];
+        // Store the user's display name
+        const displayNameAttr = entry.attributes.find((attr) => attr.type === "displayName");
+        if (displayNameAttr) {
+          displayName = displayNameAttr.vals[0];
         }
+        const memberOf = entry.attributes.find((attr) => attr.type === "memberOf");
+        if (!memberOf || !memberOf.vals) {
+          console.log(`No groups found for user: ${username}`);
+          console.error(`No groups found for user: ${username}`);
+          client.unbind();
+          return res.status(403).json({ message: "No groups found" });
+        }
+        // Store all user groups
+        userGroups = memberOf.vals;
       });
 
       searchRes.on('error', (err) => {
@@ -73,7 +82,7 @@ const login = (req, res) => {
 
         // Sign a JWT token with the username and role
         const token = jwt.sign(
-          { username, role },
+          { username:`${username} (${displayName})`, role },
           process.env.JWT_SECRET,
           { expiresIn: '1h' }
         );
